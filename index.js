@@ -1,6 +1,19 @@
 const path  = require("path");
 const Email = require("sendgrid-template-helper");
 
+
+var fs = require('fs');
+
+// function to encode file data to base64 encoded string
+function base64_encode(file) {
+    // read binary data
+    var bitmap = fs.readFileSync(file);
+    // convert binary data to base64 encoded string
+    return new Buffer(bitmap).toString('base64');
+}
+
+var base64str = base64_encode('diff.png');
+
 const settings = {
   apiKey: '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',
   prefix: "monitoring_",
@@ -17,7 +30,7 @@ email
     dynamicTemplateData: {
         name: "Aldrich",
         domain: "https://google.com",
-        url: "https://miro.medium.com/max/700/1*3sXxlNQQbomUQt86XyHEmA.png",
+        url: base64str,
         similarity: 0.8994334343234        
     },
   })
@@ -38,3 +51,4 @@ email
       console.error(body);
     }
   });
+  
